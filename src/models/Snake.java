@@ -7,7 +7,7 @@ public class Snake {
     private int y;
     private final int snakeWidth = 20;
     private final int snakeHeight = 20;
-    int speed = 2;
+    private int speed = 2;
 
 
    private Direction direction;
@@ -84,12 +84,5 @@ public class Snake {
 
     }
 
-    public void isBorder(int width,int height){
-        if ((x >= (width - snakeWidth)) || (x <= 0)) {
-            direction = null;
-        }
-        if ((y >= (height - snakeWidth)) || (y <= 0)) {
-            direction = null;
-        }
-    }
+
 }

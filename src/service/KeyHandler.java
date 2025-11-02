@@ -9,10 +9,10 @@ import enums.Direction;
 public class KeyHandler implements KeyListener {
 
 
-    Snake snake;
+    private SnakeCondition snakeCondition;
 
-    public KeyHandler(Snake snake) {
-        this.snake = snake;
+    public KeyHandler(SnakeCondition snakeCondition) {
+        this.snakeCondition = snakeCondition;
     }
 
     @Override
@@ -24,19 +24,19 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_D){
-            snake.setDirection(Direction.RIGHT);
+            snakeCondition.handleInput(Direction.RIGHT);
 
         }
         if (code == KeyEvent.VK_W){
-            snake.setDirection(Direction.UP);
+            snakeCondition.handleInput(Direction.UP);
 
         }
         if (code == KeyEvent.VK_S){
-            snake.setDirection(Direction.DOWN);
+            snakeCondition.handleInput(Direction.DOWN);
 
         }
         if (code == KeyEvent.VK_A){
-            snake.setDirection(Direction.LEFT);
+            snakeCondition.handleInput(Direction.LEFT);
 
         }
     }

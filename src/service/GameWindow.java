@@ -10,16 +10,22 @@ public class GameWindow extends JPanel implements Runnable
 {
     private final int width = 300;
     private final int height = 300;
-    Snake snake;
-    Thread gameThread;
+    private SnakeCondition snakeCondition;
+    private Snake snake;
+    private Thread gameThread;
 
-    public GameWindow(Snake snake) {
+    public GameWindow() {
         this.setPreferredSize(new Dimension(width,height));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
-        this.snake = snake;
 
-        snake.setDirection(Direction.RIGHT); //FIX, MOVE TO ANOTHER PLACE
+        this.snake = new Snake(1,1);
+        this.snakeCondition = new SnakeCondition(snake);
+        snakeCondition.handleInput(Direction.RIGHT);
+
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+        this.addKeyListener(new KeyHandler(snakeCondition));
     }
 
 
@@ -44,8 +50,8 @@ public class GameWindow extends JPanel implements Runnable
 
 
     public void update() {
-       snake.move();
-       snake.isBorder(width,height);
+       snakeCondition.update(width,height);
+
     }
 
     public void paintComponent(Graphics g) {
