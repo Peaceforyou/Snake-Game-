@@ -1,12 +1,20 @@
 package models;
 
 import enums.Direction;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Snake {
     private int x;
     private int y;
+    private int appleX;
+    private int appleWidth =15 ;
+    private int appleY;
+    private int appleHeight = 15;
     private final int snakeWidth = 20;
-    private final int snakeHeight = 20;
+    private final int SnakeHeight = 20;
     private int speed = 2;
 
 
@@ -19,29 +27,6 @@ public class Snake {
     }
 
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSnakeWidth() {
-        return snakeWidth;
-    }
-
-    public int getSnakeHeight() {
-        return snakeHeight;
-    }
 
     public void move(){
         if (direction == Direction.RIGHT) {
@@ -58,10 +43,6 @@ public class Snake {
         }
     }
 
-    public Direction getDirection() {
-        return direction;
-
-    }
 
     public void setDirection(Direction direction) {
 

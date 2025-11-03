@@ -1,6 +1,6 @@
 package service;
 
-import enums.Direction;
+
 import models.Snake;
 
 import javax.swing.*;
@@ -19,9 +19,10 @@ public class GameWindow extends JPanel implements Runnable
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
 
-        this.snake = new Snake(1,1);
+        this.snake = new Snake(150,150);
         this.snakeCondition = new SnakeCondition(snake);
-        snakeCondition.handleInput(Direction.RIGHT);
+        snakeCondition.handleInput(null);
+        snakeCondition.spawnApple(width,height);
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -57,8 +58,15 @@ public class GameWindow extends JPanel implements Runnable
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D)g;
+
+        //Snake
         g2.setColor(Color.CYAN);
         g2.drawRect(snake.getX() ,snake.getY(),snake.getSnakeWidth(), snake.getSnakeHeight());
+
+        //Apple
+        g2.setColor(Color.RED);
+        g2.fillRect(snake.getAppleX(),snake.getAppleY(),snake.getAppleWidth(), snake.getAppleHeight());
+
         g2.dispose();
     }
 
