@@ -1,48 +1,56 @@
 package models;
 
 import enums.Direction;
+import exceptions.DeathException;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Deque;
+import java.util.LinkedList;
+
 
 @Getter
 @Setter
 public class Snake {
-    private int x;
-    private int y;
+    private int length;
+    private int xHead;
+    private int yHead;
     private int appleX;
     private int appleWidth =15 ;
     private int appleY;
     private int appleHeight = 15;
     private final int snakeWidth = 20;
     private final int SnakeHeight = 20;
-    private int speed = 2;
-
+    private int speed = 3;
+    private final Point startPosition = new Point(1,1);
+    private Deque<Point> body = new LinkedList<>();
 
    private Direction direction;
 
 
    public Snake(int x, int y) {
-        this.x = x;
-        this.y = y;
+       this.xHead = x;
+       this.yHead = y;
+       body.addFirst(startPosition);
+
     }
-
-
 
     public void move(){
         if (direction == Direction.RIGHT) {
-            x += speed;
+            xHead += speed;
         }
         if (direction == Direction.UP) {
-            y  -= speed;
+            yHead  -= speed;
 
         }
         if (direction == Direction.DOWN) {
-            y  += speed;
+            yHead  += speed;
         }if (direction == Direction.LEFT) {
-            x  -= speed;
+            xHead  -= speed;
         }
+        body.removeLast();
+        body.addFirst(new Point(xHead,yHead));
     }
-
 
     public void setDirection(Direction direction) {
 
@@ -62,8 +70,16 @@ public class Snake {
             this.direction = direction;
         }
 
+        }
+    public void addLength() {
+       body.addFirst(new Point(xHead,yHead));
+
+    }
+    public void death() throws DeathException {
+       throw new DeathException("GAME OVER");
+    }
 
     }
 
 
-}
+

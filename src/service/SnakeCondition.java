@@ -1,21 +1,20 @@
 package service;
 
 import enums.Direction;
+import exceptions.DeathException;
 import models.Snake;
-
 import java.util.Random;
 
 public class SnakeCondition {
 
-
-    private Snake snake;
+    private final Snake snake;
 
     public SnakeCondition(Snake snake) {
         this.snake = snake;
     }
 
 
-    public void update(int width,int height){
+    public void update(int width,int height) throws DeathException {
         snake.move();
         isEaten(width,height);
         isDead(isBorder(width,height));
@@ -27,8 +26,8 @@ public class SnakeCondition {
     }
 
     public boolean isBorder(int width,int height){
-        if ((snake.getX() >= (width - snake.getSnakeWidth())) || (snake.getX() <= 0)
-                || (snake.getY() >= (height - snake.getSnakeHeight())) || (snake.getY() <= 0))
+        if ((snake.getXHead() >= (width - snake.getSnakeWidth())) || (snake.getXHead() <= 0)
+                || (snake.getYHead() >= (height - snake.getSnakeHeight())) || (snake.getYHead() <= 0))
         {
         snake.setDirection(null);
         return true;
@@ -36,11 +35,10 @@ public class SnakeCondition {
         return false;
 
     }
-    public void isDead(boolean isBorder){
+    public void isDead(boolean isBorder) throws DeathException {
         if (isBorder) {
-            System.out.println("GAME OVER!");
-            snake.setX(1);
-            snake.setY(1);
+            // Death logic
+            snake.death();
         }
     }
 
@@ -52,15 +50,14 @@ public class SnakeCondition {
     }
 
     public void isEaten(int width, int height) {
-        boolean xOverLap = ((snake.getX() + snake.getSnakeWidth()) > snake.getAppleX())
-                && ((snake.getX()) < snake.getAppleX() + snake.getSnakeWidth());
-        boolean yOverLap = ((snake.getY() + snake.getSnakeHeight()) > snake.getAppleY())
-                && ((snake.getY()) < snake.getAppleY() + snake.getSnakeHeight());
+        boolean xOverLap = ((snake.getXHead() + snake.getSnakeWidth()) > snake.getAppleX())
+                && ((snake.getXHead()) < snake.getAppleX() + snake.getSnakeWidth());
+        boolean yOverLap = ((snake.getYHead() + snake.getSnakeHeight()) > snake.getAppleY())
+                && ((snake.getYHead()) < snake.getAppleY() + snake.getSnakeHeight());
 
         if (xOverLap && yOverLap) {
             spawnApple(width, height);
+            snake.addLength();
         }
     }
-
-
-    }
+}

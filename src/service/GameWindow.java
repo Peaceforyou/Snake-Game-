@@ -1,10 +1,15 @@
 package service;
 
 
+import exceptions.DeathException;
+import models.Point;
 import models.Snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class GameWindow extends JPanel implements Runnable
 {
@@ -18,7 +23,11 @@ public class GameWindow extends JPanel implements Runnable
         this.setPreferredSize(new Dimension(width,height));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+        createSnake();
 
+    }
+
+    public void  createSnake() {
         this.snake = new Snake(150,150);
         this.snakeCondition = new SnakeCondition(snake);
         snakeCondition.handleInput(null);
@@ -29,7 +38,6 @@ public class GameWindow extends JPanel implements Runnable
         this.addKeyListener(new KeyHandler(snakeCondition));
     }
 
-
     public void startThread(){
         gameThread = new Thread(this);
         gameThread.start();
@@ -37,20 +45,29 @@ public class GameWindow extends JPanel implements Runnable
     @Override
     public void run() {
             while(gameThread != null){
-                update();
-                repaint();
                 try {
-//                    Thread.sleep(35); //  30 FPS
-                    Thread.sleep(17); // 60 FPS
+                    update();
+                    repaint();
+
+
+                    // 60 FPS
+                    Thread.sleep(17);
+
+                    //  30 FPS
+//                   Thread.sleep(35);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                }
+                catch (DeathException e) {
+                    System.out.println(e.getMessage());
+                    createSnake();
                 }
 
             }
     }
 
 
-    public void update() {
+    public void update() throws DeathException {
        snakeCondition.update(width,height);
 
     }
@@ -61,8 +78,10 @@ public class GameWindow extends JPanel implements Runnable
 
         //Snake
         g2.setColor(Color.CYAN);
-        g2.drawRect(snake.getX() ,snake.getY(),snake.getSnakeWidth(), snake.getSnakeHeight());
-
+       LinkedList<Point> list = (LinkedList<Point>) snake.getBody();
+        for (int i = 0;i < list.size();i++) {
+                g2.fillRect(list.get(i).x(),list.get(i).y(),snake.getSnakeWidth(),snake.getSnakeHeight());
+        }
         //Apple
         g2.setColor(Color.RED);
         g2.fillRect(snake.getAppleX(),snake.getAppleY(),snake.getAppleWidth(), snake.getAppleHeight());
