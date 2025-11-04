@@ -2,7 +2,11 @@ package service;
 
 import enums.Direction;
 import exceptions.DeathException;
+import models.Point;
 import models.Snake;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 public class SnakeCondition {
@@ -17,7 +21,7 @@ public class SnakeCondition {
     public void update(int width,int height) throws DeathException {
         snake.move();
         isEaten(width,height);
-        isDead(isBorder(width,height));
+        isDead(isBorder(width,height),checkSelfCollision());
     }
 
 
@@ -29,14 +33,14 @@ public class SnakeCondition {
         if ((snake.getXHead() >= (width - snake.getSnakeWidth())) || (snake.getXHead() <= 0)
                 || (snake.getYHead() >= (height - snake.getSnakeHeight())) || (snake.getYHead() <= 0))
         {
-        snake.setDirection(null);
-        return true;
+            snake.setDirection(null);
+            return true;
         }
         return false;
 
     }
-    public void isDead(boolean isBorder) throws DeathException {
-        if (isBorder) {
+    public void isDead(boolean isBorder,boolean checkCollision) throws DeathException {
+        if (isBorder || checkCollision) {
             // Death logic
             snake.death();
         }
@@ -59,5 +63,17 @@ public class SnakeCondition {
             spawnApple(width, height);
             snake.addLength();
         }
+    }
+
+    public boolean checkSelfCollision() {
+        Point head = snake.getBody().getFirst();
+        List<Point> body =  (LinkedList<Point>)snake.getBody();
+
+        for (int i = 2;i<body.size();i++){
+            if (head.x() == body.get(i).x() && head.y() == body.get(i).y()){
+                return true;
+            }
+        }
+        return false;
     }
 }
