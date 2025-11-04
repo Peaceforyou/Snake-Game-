@@ -36,18 +36,10 @@ public class Snake {
     }
 
     public void move(){
-        if (direction == Direction.RIGHT) {
-            xHead += speed;
-        }
-        if (direction == Direction.UP) {
-            yHead  -= speed;
-
-        }
-        if (direction == Direction.DOWN) {
-            yHead  += speed;
-        }if (direction == Direction.LEFT) {
-            xHead  -= speed;
-        }
+       if (direction != null){
+           xHead += direction.x * speed;
+           yHead += direction.y * speed;
+       }
         body.removeLast();
         body.addFirst(new Point(xHead,yHead));
     }
