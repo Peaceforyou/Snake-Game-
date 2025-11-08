@@ -6,10 +6,9 @@ import java.awt.*;
 
 class DeathWindow extends JFrame {
     private final Object lock = new Object();
-
-    public DeathWindow() {
+    public DeathWindow(int score) {
         super("Game Over");
-        setSize(200, 100);
+        setSize(300, 200);
         setLocationRelativeTo(null);
 
         JButton b = new JButton("OK");
@@ -18,7 +17,7 @@ class DeathWindow extends JFrame {
             dispose();
         });
 
-        add(new JLabel("Game Over!", SwingConstants.CENTER));
+        add(new JLabel("Your score is: " + score, SwingConstants.CENTER));
         add(b, "South");
     }
 

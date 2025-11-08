@@ -16,7 +16,8 @@ public class GameWindow extends JPanel implements Runnable
     private SnakeCondition snakeCondition;
     private Snake snake;
     private Thread gameThread;
-    private DeathWindow deathWindow = new DeathWindow();
+//    private DeathWindow deathWindow = new DeathWindow();
+    private DeathWindow deathWindow1;
 
     public GameWindow() {
         this.setPreferredSize(new Dimension(width,height));
@@ -60,7 +61,8 @@ public class GameWindow extends JPanel implements Runnable
                 //DEATH
                 catch (DeathException e) {
                     System.out.println(e.getMessage());
-                    deathWindow.showAndWait();
+                    deathWindow1 = new DeathWindow(snake.getScore());
+                    deathWindow1.showAndWait();
                     createSnake();
                 }
 

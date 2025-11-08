@@ -24,7 +24,7 @@ public class Snake {
     private int speed = 3;
     private final Point startPosition = new Point(1,1);
     private Deque<Point> body = new LinkedList<>();
-
+    private int score = 0;
    private Direction direction;
 
 
@@ -65,7 +65,7 @@ public class Snake {
         }
     public void addLength() {
        body.addFirst(new Point(xHead,yHead));
-
+        score++;
     }
     public void death() throws DeathException {
        throw new DeathException("GAME OVER");
