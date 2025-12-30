@@ -3,12 +3,10 @@ package service;
 
 import exceptions.DeathException;
 import interfaces.Drawable;
-import models.Point;
 import models.Snake;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class GameWindow extends JPanel implements Runnable
@@ -19,21 +17,25 @@ public class GameWindow extends JPanel implements Runnable
     private Snake snake;
     private Thread gameThread;
     private DeathWindow deathWindow1;
-    List<Drawable> drawableList = new ArrayList<>();
+    private List<Drawable> drawableList = new ArrayList<>();
 
     public GameWindow() {
         this.setPreferredSize(new Dimension(width,height));
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         this.setDoubleBuffered(true);
-        createSnakeAndApple(new Snake(GameConstants.START_POINT_X,GameConstants.START_POINT_Y));
+        createAll(new Snake(GameConstants.START_POINT_X,GameConstants.START_POINT_Y));
 
     }
 
-    public void createSnakeAndApple(Snake snake) {
+    private void createAll(Snake snake) {
         this.snake = snake;
         this.gameCondition = new GameCondition(snake);
         gameCondition.handleInput(null);
         gameCondition.spawnApple();
+
+        drawableList.clear();
+        drawableList.add(snake);
+        drawableList.add(gameCondition.getApple());
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -60,14 +62,14 @@ public class GameWindow extends JPanel implements Runnable
                     System.out.println(e.getMessage());
                     deathWindow1 = new DeathWindow(snake.getScore());
                     deathWindow1.showAndWait();
-                    createSnakeAndApple(new Snake(GameConstants.START_POINT_X,GameConstants.START_POINT_Y));
+                    createAll(new Snake(GameConstants.START_POINT_X,GameConstants.START_POINT_Y));
                 }
 
             }
     }
 
 
-    public void update() throws DeathException {
+        private  void update() throws DeathException {
         snake.move();
         gameCondition.update();
 
@@ -77,8 +79,7 @@ public class GameWindow extends JPanel implements Runnable
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D)g;
-        snake.draw(g,this);
-        gameCondition.getApple().draw(g2,this);
+        for (Drawable item : drawableList) item.draw(g,this);
         g2.dispose();
     }
 

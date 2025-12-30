@@ -77,14 +77,6 @@ public class Snake implements Drawable {
     }
 
 
-    public int getSnakeWidth() {
-        return snakeWidth;
-    }
-
-    public int getSnakeHeight() {
-        return SnakeHeight;
-    }
-
 
     public Deque<Point> getBody() {
         return body;
@@ -99,8 +91,8 @@ public class Snake implements Drawable {
     public void draw(Graphics g, Component component) {
         LinkedList<Point> list = (LinkedList<Point>) getBody();
         g.setColor(GameConstants.SNAKE_COLOR);
-        for (int i = 0;i < list.size();i++) {
-            g.fillRect(list.get(i).x(),list.get(i).y(),getSnakeWidth(),getSnakeHeight());
+        for (Point point : body) {
+            g.fillRect(point.x(), point.y(), snakeWidth, SnakeHeight);
         }
     }
 }
