@@ -1,9 +1,7 @@
 package models;
 
 import enums.Direction;
-import exceptions.DeathException;
 import interfaces.Drawable;
-import service.GameConstants;
 
 
 import java.awt.*;

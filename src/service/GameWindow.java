@@ -3,6 +3,7 @@ package service;
 
 import exceptions.DeathException;
 import interfaces.Drawable;
+import models.GameConstants;
 import models.Snake;
 import javax.swing.*;
 import java.awt.*;

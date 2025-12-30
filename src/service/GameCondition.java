@@ -3,6 +3,7 @@ package service;
 import enums.Direction;
 import exceptions.DeathException;
 import models.Apple;
+import models.GameConstants;
 import models.Point;
 import models.Snake;
 
