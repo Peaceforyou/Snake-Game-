@@ -1,7 +1,5 @@
 package service;
 
-import models.Snake;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import enums.Direction;
@@ -9,10 +7,10 @@ import enums.Direction;
 public class KeyHandler implements KeyListener {
 
 
-    private SnakeCondition snakeCondition;
+    private GameCondition gameCondition;
 
-    public KeyHandler(SnakeCondition snakeCondition) {
-        this.snakeCondition = snakeCondition;
+    public KeyHandler(GameCondition gameCondition) {
+        this.gameCondition = gameCondition;
     }
 
     @Override
@@ -24,19 +22,19 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_D){
-            snakeCondition.handleInput(Direction.RIGHT);
+            gameCondition.handleInput(Direction.RIGHT);
 
         }
         if (code == KeyEvent.VK_W){
-            snakeCondition.handleInput(Direction.UP);
+            gameCondition.handleInput(Direction.UP);
 
         }
         if (code == KeyEvent.VK_S){
-            snakeCondition.handleInput(Direction.DOWN);
+            gameCondition.handleInput(Direction.DOWN);
 
         }
         if (code == KeyEvent.VK_A){
-            snakeCondition.handleInput(Direction.LEFT);
+            gameCondition.handleInput(Direction.LEFT);
 
         }
     }

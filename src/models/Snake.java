@@ -2,26 +2,22 @@ package models;
 
 import enums.Direction;
 import exceptions.DeathException;
-import lombok.Getter;
-import lombok.Setter;
+import interfaces.Drawable;
+import service.GameConstants;
 
+
+import java.awt.*;
 import java.util.Deque;
 import java.util.LinkedList;
 
 
-@Getter
-@Setter
-public class Snake {
-    private int length;
+
+public class Snake implements Drawable {
     private int xHead;
     private int yHead;
-    private int appleX;
-    private int appleWidth =15 ;
-    private int appleY;
-    private int appleHeight = 15;
-    private final int snakeWidth = 20;
-    private final int SnakeHeight = 20;
-    private int speed = 3;
+    private final int snakeWidth = GameConstants.SNAKE_WIDTH;
+    private final int SnakeHeight = GameConstants.SNAKE_HEIGHT;
+    private int speed = GameConstants.SPEED;
     private final Point startPosition = new Point(1,1);
     private Deque<Point> body = new LinkedList<>();
     private int score = 0;
@@ -71,7 +67,43 @@ public class Snake {
        throw new DeathException("GAME OVER");
     }
 
+    public int getXHead() {
+        return xHead;
     }
+
+
+    public int getYHead() {
+        return yHead;
+    }
+
+
+    public int getSnakeWidth() {
+        return snakeWidth;
+    }
+
+    public int getSnakeHeight() {
+        return SnakeHeight;
+    }
+
+
+    public Deque<Point> getBody() {
+        return body;
+    }
+
+
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public void draw(Graphics g, Component component) {
+        LinkedList<Point> list = (LinkedList<Point>) getBody();
+        g.setColor(GameConstants.SNAKE_COLOR);
+        for (int i = 0;i < list.size();i++) {
+            g.fillRect(list.get(i).x(),list.get(i).y(),getSnakeWidth(),getSnakeHeight());
+        }
+    }
+}
 
 
 

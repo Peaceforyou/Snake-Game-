@@ -2,40 +2,42 @@ package service;
 
 
 import exceptions.DeathException;
-import models.GameResources;
+import interfaces.Drawable;
 import models.Point;
 import models.Snake;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GameWindow extends JPanel implements Runnable
 {
-    private final int width = 300;
-    private final int height = 300;
-    private SnakeCondition snakeCondition;
+    private final int width = GameConstants.WINDOW_WIDTH;
+    private final int height = GameConstants.WINDOW_HEIGHT;
+    private GameCondition gameCondition;
     private Snake snake;
     private Thread gameThread;
-//    private DeathWindow deathWindow = new DeathWindow();
     private DeathWindow deathWindow1;
+    List<Drawable> drawableList = new ArrayList<>();
 
     public GameWindow() {
         this.setPreferredSize(new Dimension(width,height));
-        this.setBackground(Color.BLACK);
+        this.setBackground(GameConstants.BACKGROUND_COLOR);
         this.setDoubleBuffered(true);
-        createSnake();
+        createSnakeAndApple(new Snake(GameConstants.START_POINT_X,GameConstants.START_POINT_Y));
 
     }
 
-    public void  createSnake() {
-        this.snake = new Snake(150,150);
-        this.snakeCondition = new SnakeCondition(snake);
-        snakeCondition.handleInput(null);
-        snakeCondition.spawnApple(width,height);
+    public void createSnakeAndApple(Snake snake) {
+        this.snake = snake;
+        this.gameCondition = new GameCondition(snake);
+        gameCondition.handleInput(null);
+        gameCondition.spawnApple();
 
         this.setFocusable(true);
         this.requestFocusInWindow();
-        this.addKeyListener(new KeyHandler(snakeCondition));
+        this.addKeyListener(new KeyHandler(gameCondition));
     }
 
     public void startThread(){
@@ -48,13 +50,8 @@ public class GameWindow extends JPanel implements Runnable
                 try {
                     update();
                     repaint();
+                    Thread.sleep(GameConstants.FPS);
 
-
-                    // 60 FPS
-                    Thread.sleep(17);
-
-                    //  30 FPS
-//                   Thread.sleep(35);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -63,7 +60,7 @@ public class GameWindow extends JPanel implements Runnable
                     System.out.println(e.getMessage());
                     deathWindow1 = new DeathWindow(snake.getScore());
                     deathWindow1.showAndWait();
-                    createSnake();
+                    createSnakeAndApple(new Snake(GameConstants.START_POINT_X,GameConstants.START_POINT_Y));
                 }
 
             }
@@ -71,7 +68,8 @@ public class GameWindow extends JPanel implements Runnable
 
 
     public void update() throws DeathException {
-       snakeCondition.update(width,height);
+        snake.move();
+        gameCondition.update();
 
     }
 
@@ -79,24 +77,12 @@ public class GameWindow extends JPanel implements Runnable
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D)g;
-        drawSnake(g2,Color.magenta);
-        drawApple(g2,Color.RED);
+        snake.draw(g,this);
+        gameCondition.getApple().draw(g2,this);
         g2.dispose();
     }
 
-    public void drawSnake(Graphics g2,Color color){
-        LinkedList<Point> list = (LinkedList<Point>) snake.getBody();
-        g2.setColor(color);
-        for (int i = 0;i < list.size();i++) {
-            g2.fillRect(list.get(i).x(),list.get(i).y(),snake.getSnakeWidth(),snake.getSnakeHeight());
-        }
-    }
 
-    public void drawApple(Graphics g2,Color color){
-        g2.setColor(color);
-        ImageIcon apple = GameResources.getApple();
-        apple.paintIcon(this, g2, snake.getAppleX(), snake.getAppleY());
-    }
 
 }
 
