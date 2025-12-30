@@ -63,9 +63,6 @@ public class Snake implements Drawable {
        body.addFirst(new Point(xHead,yHead));
         score++;
     }
-    public void death() throws DeathException {
-       throw new DeathException("GAME OVER");
-    }
 
     public int getXHead() {
         return xHead;

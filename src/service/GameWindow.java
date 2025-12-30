@@ -79,7 +79,9 @@ public class GameWindow extends JPanel implements Runnable
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D)g;
-        for (Drawable item : drawableList) item.draw(g,this);
+        for (Drawable item : drawableList) {
+            item.draw(g2, this);
+        }
         g2.dispose();
     }
 

@@ -21,6 +21,6 @@ public class GameConstants {
     public final static int WINDOW_WIDTH = 300;
     public final static int WINDOW_HEIGHT = 300;
     public final static int FPS = 17;
-    public final static Color BACKGROUND_COLOR = Color.cyan;
+    public final static Color BACKGROUND_COLOR = Color.black;
 
 }

@@ -25,7 +25,6 @@ public class GameCondition {
 
 
     public void update() throws DeathException {
-//        snake.move();
         isEaten();
         isDead(isBorder(),checkSelfCollision());
     }
@@ -47,8 +46,8 @@ public class GameCondition {
     }
     public void isDead(boolean isBorder,boolean checkCollision) throws DeathException {
         if (isBorder || checkCollision) {
-            // Death logic
-            snake.death();
+            throw new DeathException("GAME OVER");
+
         }
     }
 
@@ -72,15 +71,16 @@ public class GameCondition {
         }
     }
 
-    public boolean checkSelfCollision() {
-        Point head = snake.getBody().getFirst();
-        List<Point> body =  (LinkedList<Point>)snake.getBody();
-
-        for (int i = 2;i<body.size();i++){
-            if (head.x() == body.get(i).x() && head.y() == body.get(i).y()){
-                return true;
-            }
+public boolean checkSelfCollision() {
+    List<Point> body = (LinkedList<Point>) snake.getBody();
+    int headX = snake.getXHead();
+    int headY = snake.getYHead();
+    for (int i = 2; i < body.size(); i++) {
+        Point bodySegment = body.get(i);
+        if (headX == bodySegment.x() && headY == bodySegment.y()) {
+            return true;
         }
-        return false;
     }
+    return false;
+}
 }
