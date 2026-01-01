@@ -44,13 +44,13 @@ public class Snake implements Drawable {
             this.direction = direction;
         }
 
-        if ((this.direction == Direction.RIGHT & direction != Direction.LEFT) ||
-                (this.direction == Direction.LEFT & direction != Direction.RIGHT))
+        if ((this.direction == Direction.RIGHT && direction != Direction.LEFT) ||
+                (this.direction == Direction.LEFT && direction != Direction.RIGHT))
         {
             this.direction = direction;
 
-        } else if ((this.direction == Direction.UP & direction != Direction.DOWN) ||
-                (this.direction == Direction.DOWN & direction != Direction.UP))
+        } else if ((this.direction == Direction.UP && direction != Direction.DOWN) ||
+                (this.direction == Direction.DOWN && direction != Direction.UP))
         {
 
             this.direction = direction;
@@ -84,7 +84,6 @@ public class Snake implements Drawable {
 
     @Override
     public void draw(Graphics g, Component component) {
-        LinkedList<Point> list = (LinkedList<Point>) getBody();
         g.setColor(GameConstants.SNAKE_COLOR);
         for (Point point : body) {
             g.fillRect(point.x(), point.y(), snakeWidth, SnakeHeight);
