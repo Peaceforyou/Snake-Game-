@@ -1,6 +1,9 @@
 # Snake Game 
 
 A classic Snake game built with Java Swing featuring smooth gameplay, score tracking.
+<p align="center">
+  <img src="src/images/SnakeGame.png" alt="Snake Game Screenshot" width="400"/>
+</p>
 
 ## Need to run
 
